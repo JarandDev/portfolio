@@ -56,6 +56,35 @@
             box-sizing: border-box;
         }
 
+        .stack {
+            width: 100%;
+            max-width: var(--max-width);
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .card h2 {
+            margin: 0 0 12px;
+            font-size: 20px;
+        }
+
+        .edu-list {
+            margin: 0;
+            padding-left: 18px;
+            color: var(--text);
+        }
+
+        .edu-list li {
+            margin: 8px 0;
+        }
+
+        .edu-meta {
+            color: var(--muted);
+            font-size: 14px;
+            margin-left: 6px;
+        }
+
         .card {
             width: 100%;
             max-width: var(--max-width);
@@ -146,34 +175,61 @@
 <body>
 
 <div class="wrapper">
-    <main class="card">
-        <section class="header">
-            <img alt="Profilbilde av Jarand Homleid Haugen" class="avatar" src="profile.jpg">
+    <div class="stack">
 
-            <div>
-                <h1>Jarand Homleid Haugen</h1>
-                <p class="subtitle">Systemutvikler i Tolletaten</p>
-            </div>
+        <main class="card">
+            <section class="header">
+                <img alt="Profilbilde av Jarand Homleid Haugen" class="avatar" src="profile.jpg">
+
+                <div>
+                    <h1>Jarand Homleid Haugen</h1>
+                    <p class="subtitle">Systemutvikler i Tolletaten</p>
+                </div>
+            </section>
+
+            <section aria-label="Nøkkelinformasjon" class="info">
+                <div class="label">Alder</div>
+                <div class="value">30 år</div>
+
+                <div class="label">Bosted</div>
+                <div class="value">Oslo, Norge</div>
+
+                <div class="label">Yrke</div>
+                <div class="value">Systemutvikler</div>
+
+                <div class="label">Arbeidsgiver</div>
+                <div class="value">Tolletaten</div>
+            </section>
+
+            <section aria-label="Lenker" class="links">
+                <a href="https://github.com/JarandDev" rel="noreferrer" target="_blank">GitHub-profil</a>
+                <a href="https://www.strava.com/athletes/14664833" rel="noreferrer" target="_blank">Strava-profil</a>
+            </section>
+        </main>
+
+        <section aria-label="Utdanning" class="card">
+            <h2>Utdanning</h2>
+            <ul class="edu-list">
+                <li>
+                    <strong>Bachelor i Informasjonsteknologi</strong>
+                    <span class="edu-meta">— Høgskulen på Vestlandet, 2014-2016</span>
+                </li>
+                <li>
+                    <strong>Studiespesialisering</strong>
+                    <span class="edu-meta">— Kristelig Gymnasium, 2011-2014</span>
+                </li>
+                <li>
+                    <strong>Ungdomsskole</strong>
+                    <span class="edu-meta">— Ris skole, 2008-2011</span>
+                </li>
+                <li>
+                    <strong>Barneskole</strong>
+                    <span class="edu-meta">— Slemdal skole, 2001-2008</span>
+                </li>
+            </ul>
         </section>
 
-        <section aria-label="Nøkkelinformasjon" class="info">
-            <div class="label">Alder</div>
-            <div class="value">30 år</div>
-
-            <div class="label">Bosted</div>
-            <div class="value">Oslo, Norge</div>
-
-            <div class="label">Yrke</div>
-            <div class="value">Systemutvikler</div>
-
-            <div class="label">Arbeidsgiver</div>
-            <div class="value">Tolletaten</div>
-        </section>
-
-        <section aria-label="Lenker" class="links">
-            <a href="https://github.com/JarandDev" rel="noreferrer" target="_blank">GitHub-profil</a>
-        </section>
-    </main>
+    </div>
 </div>
 
 </body>
