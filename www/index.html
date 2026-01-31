@@ -171,6 +171,53 @@
                 grid-template-columns: 1fr;
             }
         }
+
+        .showcase {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .showcase h2 {
+            margin: 0;
+            font-size: 20px;
+        }
+
+        .showcase-item {
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            overflow: hidden;
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .showcase-media {
+            margin-left: auto;
+            margin-right: auto;
+            width: 90%;
+            aspect-ratio: 16 / 9;
+            object-fit: contain;
+        }
+
+        .showcase-title {
+            margin: 0;
+            padding: 14px 14px 10px;
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        .showcase-footer {
+            padding: 12px 14px 14px;
+        }
+
+        .showcase-link {
+            color: var(--link);
+            text-decoration: none;
+        }
+
+        .showcase-link:hover {
+            color: var(--link-hover);
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
@@ -228,6 +275,20 @@
                     <span class="edu-meta">— Slemdal skole, 2001-2008</span>
                 </li>
             </ul>
+        </section>
+
+        <section aria-label="Ting jeg er stolt av" class="card showcase">
+            <h2>Ting jeg er stolt av</h2>
+
+            <article class="showcase-item">
+                <p class="showcase-title">277 km sykkeltur til Vikersund, Hønefoss og Eidsvoll</p>
+
+                <img alt="Kart over turen" class="showcase-media" loading="lazy" src="2024-08-10-277km.png">
+
+                <div class="showcase-footer">
+                    <a class="showcase-link" href="https://example.com" rel="noreferrer" target="_blank">Strava-aktivitet</a>
+                </div>
+            </article>
         </section>
 
     </div>
