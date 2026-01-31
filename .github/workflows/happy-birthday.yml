@@ -1,0 +1,97 @@
+name: Happy Birthday
+
+on:
+  schedule:
+    - cron: "14 22 13 9 *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update-age:
+    runs-on: ubuntu-latest
+    env:
+      TZ: Europe/Oslo
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Compute age and commit message
+        id: meta
+        shell: bash
+        run: |
+          BIRTH_YEAR=1995
+          BIRTH_MONTH=09
+          BIRTH_DAY=14
+
+          YEAR=$(date +%Y)
+          MONTH=$(date +%m)
+          DAY=$(date +%d)
+
+          AGE=$((YEAR - BIRTH_YEAR))
+
+          # If today is before birthday this year, subtract 1
+          if [ "$MONTH" -lt "$BIRTH_MONTH" ] || { [ "$MONTH" -eq "$BIRTH_MONTH" ] && [ "$DAY" -lt "$BIRTH_DAY" ]; }; then
+            AGE=$((AGE - 1))
+          fi
+
+          echo "age=$AGE" >> "$GITHUB_OUTPUT"
+
+          if [ "$(date +%m-%d)" = "09-14" ]; then
+            echo "msg=Happy birthday 🎉" >> "$GITHUB_OUTPUT"
+          else
+            echo "msg=Update age" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Update age in www/index.html
+        env:
+          AGE: ${{ steps.meta.outputs.age }}
+        run: |
+          python - <<'PY'
+          import os, re
+          from pathlib import Path
+
+          age = os.environ["AGE"]
+          path = Path("www/index.html")
+          html = path.read_text(encoding="utf-8")
+
+          # Find the "Alder" label div and replace the content of the following value div.
+          pattern = re.compile(
+              r'(<div[^>]*class="label"[^>]*>\s*Alder\s*</div>\s*'
+              r'<div[^>]*class="value"[^>]*>\s*)(.*?)(\s*</div>)',
+              re.IGNORECASE | re.DOTALL
+          )
+
+          updated, n = pattern.subn(lambda m: m.group(1) + f"{age} år" + m.group(3), html, count=1)
+
+          if n == 0:
+              snippet = html[:1500]
+              raise SystemExit(
+                  "Could not find the age field for 'Alder' in www/index.html.\n"
+                  "First 1500 chars for debugging:\n" + snippet
+              )
+
+          path.write_text(updated, encoding="utf-8")
+          print(f"Updated age to {age} in {path}")
+          PY
+
+
+      - name: Commit and push if changed
+        env:
+          COMMIT_MSG: ${{ steps.meta.outputs.msg }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add www/index.html
+
+          # No-op if nothing changed
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+            exit 0
+          fi
+
+          git commit -m "$COMMIT_MSG"
+          git push
